@@ -39,7 +39,6 @@ def _get_filter(category, options):
                 if not category == 'city':
                     answer = 'all'
                     break
-
             if not answer:
                 raise ValueError("{} CANNOT be blank.".format(category))
             if any(i.isdigit() for i in answer):
@@ -231,6 +230,26 @@ def user_stats(df):
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-' * 40)
 
+def display_sample_data(df):
+    browse_sample = input('\nWould you like to view sample data? Enter yes or no: \n')
+    if browse_sample.lower() == 'yes':
+        df_list = df.to_dict('records')
+
+        def chunker(lst):
+            for i in range(0, len(lst), 5):
+                yield df_list[i:i + 5]
+
+        for chunk in chunker(df_list):
+            for entry in list(chunk):
+                # Output in human friendly format.
+                for key,value in entry.items():
+                    print("{} --> {}".format(key,value))
+                print("%" *40)
+
+            is_continue = input("Enter Y to continue: ").strip()
+            if is_continue.lower() != 'y':
+                break
+
 
 def main():
     while True:
@@ -243,7 +262,9 @@ def main():
         trip_duration_stats(df)
         user_stats(df)
 
-        restart = input('\nWould you like to restart? Enter yes or no.\n')
+        display_sample_data(df)
+
+        restart = input('\nWould you like to restart? Enter yes or no: \n')
         if restart.lower() != 'yes':
             break
 
