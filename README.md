@@ -3,7 +3,7 @@
 3rd October, 2021.
 
 ### Project Title
-Bikeshare :bike:
+BikeStat :bike:
 
 ### Description
 This project uses python to explore data related to bike share system for 3 three major cities in the US :us:. 
