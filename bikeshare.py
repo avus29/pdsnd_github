@@ -233,14 +233,19 @@ def user_stats(df):
 def display_sample_data(df):
     browse_sample = input('\nWould you like to view sample data? Enter yes or no: \n')
     if browse_sample.lower() == 'yes':
-        df_list = df.values.tolist()
+        df_list = df.to_dict('records')
 
         def chunker(lst):
             for i in range(0, len(lst), 5):
                 yield df_list[i:i + 5]
 
         for chunk in chunker(df_list):
-            print(list(chunk))
+            for entry in list(chunk):
+                # Output in human friendly format.
+                for key,value in entry.items():
+                    print("{} --> {}".format(key,value))
+                print("%" *40)
+
             is_continue = input("Enter Y to continue: ").strip()
             if is_continue.lower() != 'y':
                 break
