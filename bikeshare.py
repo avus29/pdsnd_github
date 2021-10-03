@@ -230,6 +230,21 @@ def user_stats(df):
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-' * 40)
 
+def display_sample_data(df):
+    browse_sample = input('\nWould you like to view sample data? Enter yes or no: \n')
+    if browse_sample.lower() == 'yes':
+        df_list = df.values.tolist()
+
+        def chunker(lst):
+            for i in range(0, len(lst), 5):
+                yield df_list[i:i + 5]
+
+        for chunk in chunker(df_list):
+            print(list(chunk))
+            is_continue = input("Enter Y to continue: ").strip()
+            if is_continue.lower() != 'y':
+                break
+
 
 def main():
     while True:
@@ -242,20 +257,9 @@ def main():
         trip_duration_stats(df)
         user_stats(df)
 
-        browse_sample = input('\nWould you like to view sample data? Enter yes or no.\n')
-        if browse_sample.lower() == 'yes':
-            df_list = df.values.tolist()
-            def chunker(lst):
-               for i in range(0,len(lst),5):
-                yield df_list[i:i + 5]
+        display_sample_data(df)
 
-            for chunk in chunker(df_list):
-                print(list(chunk))
-                is_continue = input("Enter Y to continue: ").strip()
-                if is_continue.lower() != 'y':
-                    break
-
-        restart = input('\nWould you like to restart? Enter yes or no.\n')
+        restart = input('\nWould you like to restart? Enter yes or no: \n')
         if restart.lower() != 'yes':
             break
 
